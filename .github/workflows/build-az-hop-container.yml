@@ -25,16 +25,16 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GH_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Tag latest image
-        run: docker tag azure-hop ghcr.io/azure-hop/azure-hop-container:latest
+        run: docker tag azure-hop ghcr.io/timothymeyers/azure-hop-container:latest
 
       - name: Push latest image 
-        run: docker push ghcr.io/azure-hop/azure-hop-container:latest
+        run: docker push ghcr.io/timothymeyers/azure-hop-container:latest
 
       - name: Tag image with build number
-        run: docker tag azure-hop ghcr.io/azure-hop/azure-hop-container:${{ github.run_number }}
+        run: docker tag azure-hop ghcr.io/timothymeyers/azure-hop-container:${{ github.run_number }}
 
       - name: Push image with build number
-        run: docker push ghcr.io/azure-hop/azure-hop-container:${{ github.run_number }}
+        run: docker push ghcr.io/timothymeyers/azure-hop-container:${{ github.run_number }}
