@@ -13,6 +13,9 @@ ENV AZ_HOP_VERSION="v1.0.40" \
     AZ_HOP_BRANCH="main" \
     AZ_HOP_REPO="https://github.com/Azure/az-hop.git"
 
+# Set the default shell to bash rather than sh
+ENV SHELL /bin/bash
+
 # Install dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -32,10 +35,18 @@ RUN apt-get update && \
 # Install Azure CLI
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
-# Set the default shell to bash rather than sh
-ENV SHELL /bin/bash
+RUN git clone --branch ${AZ_HOP_BRANCH} ${AZ_HOP_REPO} /az-hop
 
 # Set the working directory to /az-hop
 WORKDIR /az-hop
+COPY ./config/ /az-hop
 
-RUN git clone --branch ${AZ_HOP_BRANCH} ${AZ_HOP_REPO} .
+# install az-hop's helper tools
+RUN ./toolset/scripts/install.sh
+
+# Add a non-root user azhopinstaller with an explicit UID/GID and add permissions to access the /az-hop folder
+RUN groupadd --gid 1000 azhopinstaller \
+    && useradd --uid 1000 --gid azhopinstaller --shell /bin/bash --create-home azhopinstaller
+RUN chown -R azhopinstaller:azhopinstaller /az-hop
+
+USER azhopinstaller
