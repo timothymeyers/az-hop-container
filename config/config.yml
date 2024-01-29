@@ -10,7 +10,7 @@ resource_group: azhop-rg
 anf:
   create: true
   # Size of the ANF pool and unique volume (min: 4TB, max: 100TB)
-  homefs_size_tb: 1
+  homefs_size_tb: 4
   # Service level of the ANF volume, can be: Standard, Premium, Ultra
   homefs_service_level: Standard
 
@@ -117,7 +117,7 @@ queues:
     # Queue dedicated to GPU remote viz nodes. This name is fixed and can't be changed
   - name: viz3d
     vm_size: Standard_NV12s_v3
-            max_core_count: 2 #24
+    max_core_count: 2 #24
     image: azhpc:azhop-desktop:centos-7_9:latest
     ColocateNodes: false
     EnableAcceleratedNetworking: true
@@ -142,5 +142,4 @@ applications:
     enabled: true
   bc_jupyter:
     enabled: true
-                                                                                                                                                                                                                                    144,1         Bot                                                                                                                                                                                                                        45,1          60%
-                                                                                                                                                                                                                                  
+    

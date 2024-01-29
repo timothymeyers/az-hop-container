@@ -5,9 +5,11 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York \
     DEBIAN_FRONTEND=noninteractive
 
-LABEL author    ="Tim Meyers"
-LABEL version   ="0.1"
-LABEL email     ="tmeyers@microsoft.com"
+LABEL author "Tim Meyers"
+LABEL version "0.1"
+LABEL email "tmeyers@microsoft.com"
+
+LABEL org.opencontainers.image.description "This container provides a self-contained environment for deploying the Azure HPC On-Demand Platform (AZ HOP)."
 
 ENV AZ_HOP_VERSION="v1.0.40" \
     AZ_HOP_BRANCH="main" \
@@ -35,7 +37,7 @@ RUN apt-get update && \
 # Install Azure CLI
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
-RUN git clone --branch ${AZ_HOP_BRANCH} ${AZ_HOP_REPO} /az-hop
+RUN git clone --recursive ${AZ_HOP_REPO} --branch ${AZ_HOP_BRANCH} /az-hop
 
 # Set the working directory to /az-hop
 WORKDIR /az-hop
