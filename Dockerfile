@@ -37,7 +37,7 @@ RUN apt-get update && \
 # Install Azure CLI
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
-RUN git clone --branch ${AZ_HOP_BRANCH} ${AZ_HOP_REPO} /az-hop
+RUN git clone --recursive ${AZ_HOP_REPO} --branch ${AZ_HOP_BRANCH} /az-hop
 
 # Set the working directory to /az-hop
 WORKDIR /az-hop
