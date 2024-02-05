@@ -101,19 +101,6 @@ authentication:
   user_auth: ad # local or ad
   httpd_auth: basic # oidc or basic
 
-# authentication:
-#  httpd_auth: oidc
-#  user_map_match: '^([^@]+)@microsoft.onmicrosoft.com$'
-#  ood_auth_openidc:
-#    OIDCProviderMetadataURL: 'https://sts.windows.net//.well-known/openid-configuration'
-#    OIDCClientID: '7debb918-92ec-4cfe-a49c-5b09e578cde7'
-#    OIDCRemoteUserClaim: 'upn'
-#    OIDCScope: 'openid profile email groups'
-#    OIDCPassIDTokenAs: 'serialized'
-#    OIDCPassRefreshToken: 'On'
-#    OIDCPassClaimsAs: 'environment'
-
-
 private_dns:
   create: true # Create a private DNS zone for the environment. Default to false
   name: hpc.azure # Name of the private DNS zone to be created. Default to hpc.azure
@@ -157,7 +144,7 @@ slurm:
   accounting_enabled: false
   # SLURM version to install.
   slurm_version: 22.05.3
-  cyclecloud_slurm_version: 2.7.2 
+  cyclecloud_slurm_version: 2.7.2
   # cluster_name: slurm_azhop
 
 
@@ -192,7 +179,6 @@ queues:
     max_core_count: 32
     image: azhpc:azhop-compute:centos-7_9:latest
     ColocateNodes: false
-
   - name: hpc
     vm_size: Standard_HB120rs_v2
     max_core_count: 16 #480

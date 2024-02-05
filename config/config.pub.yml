@@ -4,7 +4,7 @@
 project_name: az-hop
 
 location: eastus
-resource_group: azhop-rg
+resource_group: azhop-pub-rg
 use_existing_rg: false
 
 anf:
@@ -176,7 +176,7 @@ autoscale:
 queues:
   - name: htc
     vm_size: Standard_F2s_v2
-    max_core_count: 8 #128
+    max_core_count: 32
     image: azhpc:azhop-compute:centos-7_9:latest
     ColocateNodes: false
   - name: hpc
