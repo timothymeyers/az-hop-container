@@ -3,8 +3,8 @@
 # name of the cluster
 project_name: az-hop
 
-location: eastus
-resource_group: azhop-rg
+location: usgovvirginia 
+resource_group: azhop-gov-rg
 use_existing_rg: false
 
 anf:
@@ -101,6 +101,19 @@ authentication:
   user_auth: ad # local or ad
   httpd_auth: basic # oidc or basic
 
+# authentication:
+#  httpd_auth: oidc
+#  user_map_match: '^([^@]+)@microsoft.onmicrosoft.com$'
+#  ood_auth_openidc:
+#    OIDCProviderMetadataURL: 'https://sts.windows.net//.well-known/openid-configuration'
+#    OIDCClientID: '7debb918-92ec-4cfe-a49c-5b09e578cde7'
+#    OIDCRemoteUserClaim: 'upn'
+#    OIDCScope: 'openid profile email groups'
+#    OIDCPassIDTokenAs: 'serialized'
+#    OIDCPassRefreshToken: 'On'
+#    OIDCPassClaimsAs: 'environment'
+
+
 private_dns:
   create: true # Create a private DNS zone for the environment. Default to false
   name: hpc.azure # Name of the private DNS zone to be created. Default to hpc.azure
@@ -123,7 +136,7 @@ cyclecloud:
 users:
   - { name: hpcuser, uid: 10001 }
   - { name: adminuser, uid: 10002, groups: [5001, 5002] }
-  - { name: tim.tim, uid: 10003 }
+  - { name: tmeyers, uid: 10003, groups: [5000, 5001, 5002] }
 
 usergroups:
   - name: azhop-users # All users will be added to this one by default
@@ -144,7 +157,7 @@ slurm:
   accounting_enabled: false
   # SLURM version to install.
   slurm_version: 22.05.3
-  cyclecloud_slurm_verion: 2.7.2
+  cyclecloud_slurm_version: 2.7.2 
   # cluster_name: slurm_azhop
 
 
@@ -176,12 +189,12 @@ autoscale:
 queues:
   - name: htc
     vm_size: Standard_F2s_v2
-    max_core_count: 8 #128
+    max_core_count: 32
     image: azhpc:azhop-compute:centos-7_9:latest
     ColocateNodes: false
 
   - name: hpc
-    vm_size: Standard_HB120rs_v3
+    vm_size: Standard_HB120rs_v2
     max_core_count: 16 #480
     image: azhpc:azhop-compute:centos-7_9:latest
     EnableAcceleratedNetworking: true
