@@ -4,7 +4,7 @@
 project_name: az-hop
 
 location: usgovvirginia 
-resource_group: azhop-gov-rg
+resource_group: azhop-gov-mfa-rg
 use_existing_rg: false
 
 anf:
@@ -20,7 +20,7 @@ optout_telemetry: true
 
 tags:
   env: dev
-  project: azhop
+  project: azhop-mfa
   scheduler: slurm
 
 mounts:
@@ -97,9 +97,24 @@ ad:
   vm_size: Standard_B2ms
   name: ad
 
+#authentication:
+#  user_auth: ad # local or ad
+#  httpd_auth: basic # oidc or basic
+
 authentication:
-  user_auth: ad # local or ad
-  httpd_auth: basic # oidc or basic
+  user_auth: ad
+  httpd_auth: oidc
+  user_map_match: '^([^@]+)@fieldinternaltrials.onmicrosoft.com$'
+  ood_auth_openidc:
+    OIDCProviderMetadataURL: # for Azure Gov Entra ID use 'https://login.microsoftonline.us/{{tenant_id}}/.well-known/openid-configuration'
+    OIDCClientID: 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'
+    OIDCRemoteUserClaim: 'unique_name' # Template file says for AAD use 'unique_name', but docs say to use 'upn'
+    OIDCScope: 'openid profile email groups' # for AAD use 'openid profile email groups'
+    OIDCPassIDTokenAs: 'serialized' # for AAD use 'serialized'
+    OIDCPassRefreshToken: 'On' # for AAD use 'On'
+    OIDCPassClaimsAs: 'environment' # for AAD use 'environment'
+  #   OIDCStateMaxNumberOfCookies: # in case of too many connections error for the same user set this to [10, true]
+  
 
 private_dns:
   create: true # Create a private DNS zone for the environment. Default to false
@@ -123,7 +138,7 @@ cyclecloud:
 users:
   - { name: hpcuser, uid: 10001 }
   - { name: adminuser, uid: 10002, groups: [5001, 5002] }
-  - { name: tmeyers, uid: 10003, groups: [5000, 5001, 5002] }
+#  - { name: tmeyers, uid: 10003, groups: [5000, 5001, 5002] }
 
 usergroups:
   - name: azhop-users # All users will be added to this one by default
