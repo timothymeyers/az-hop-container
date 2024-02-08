@@ -188,7 +188,7 @@ queues:
     type: remoteviz
     description: "With GPU - Small GPU node for single session"
     vm_size: Standard_NV12s_v3
-    max_core_count: 2 #24
+    max_core_count: 4 #24
     image: azhpc:azhop-desktop:centos-7_9:latest
     ColocateNodes: false
     EnableAcceleratedNetworking: true
@@ -217,6 +217,19 @@ applications:
     enabled: true
   bc_jupyter:
     enabled: true
+  bc_amlsdk:
+    enabled: true
+  bc_rstudio:
+    enabled: true
+  bc_ansys_workbench:
+    enabled: true
+  bc_vmd:
+    enabled: true
+  bc_paraview:
+    enabled: true
+  bc_vizer:
+    enabled: true 
+
 # Option to install the monitoring agent on static infra VMs. Can be disabled if the agent is installed by policy.  
 monitoring: 
   azure_monitor_agent: false # Install Azure Monitor Agent on static infra VMs
